@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Saintis",
+    "slug": "saintis", 
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFF"
+    },
+    "facebookScheme": "fb1234567891234567",
+    "facebookAppId": "2790556831238027",
+    "facebookDisplayName": "Mari Study",
+    "facebookAutoLogAppEventsEnabled": true,
+    "facebookAdvertiserIDCollectionEnabled": true,
+    "plugins": [
+      [
+        "expo-ads-facebook",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ]
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "versionCode" : 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1E90FF"
+      },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8095237298596091~3314525522"
+      },
+      "package": "com.misdar.saintis"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
