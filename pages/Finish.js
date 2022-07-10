@@ -1,16 +1,13 @@
 import React, { useEffect, useRef, useState, memo } from "react";
 import LottieView from "lottie-react-native";
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { heightSize, widthSize } from "../helpers/layoutDimension";
 import ButtonStyle from "../components/Buttonscomponent/Button";
 import Progress from "../components/Progress";
-import { Primary, Red, TextColorLight, Yellow } from "../Global/Color";
-import { FontAwesome } from "@expo/vector-icons";
+import { TextColorLight } from "../Global/Color";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../components/Card/Card";
-import * as Linking from "expo-linking";
 import RewardedAdd from "../components/Adds/RewardedAdd";
-import * as StoreReview from "expo-store-review";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import CardSmall from "../components/Card/CardSmall";
@@ -19,6 +16,9 @@ import { widthPercentage } from "../Global/Dimensions";
 import Layout from "../Global/Layout";
 import TextPrimary from "../components/Text/TextPrimary";
 import { colorLight, colorSecondary } from "../assets/Colors/Colors";
+import playStoreRiview from "../functions/playstoreRiview";
+import { Entypo } from "@expo/vector-icons";
+import onShare from "../functions/shareFunction";
 
 const Finish = (props) => {
   const {
@@ -32,22 +32,13 @@ const Finish = (props) => {
   const [animated, setAnimated] = useState(true);
   const animation = useRef(null);
 
-  const riviewPlayStore = async () => {
-    if (await StoreReview.hasAction()) {
-      Linking.openURL(
-        `market://details?id=com.misdar.utbk&showAllReviews=true`
-      );
-      StoreReview.requestReview();
-    }
-  };
-
   useEffect(() => {
     const timer = setTimeout(() => setAnimated(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <Layout style={{backgroundColor: colorSecondary}}>
+    <Layout style={{ backgroundColor: colorSecondary }}>
       <View style={styles.container}>
         {animated ? (
           <LottieView
@@ -97,25 +88,26 @@ const Finish = (props) => {
               </View>
             </View>
             <View style={styles.listContainer}>
-              <Pressable
+              <TouchableOpacity
                 style={[styles.list, { marginBottom: heightSize("1%") }]}
-                onPress={() => Linking.openURL("https://trakteer.id/siapUTBK")}
+                onPress={onShare}
               >
-                <TextPrimary>Trakter kopi</TextPrimary>
-                <FontAwesome name="coffee" size={30} color={TextColorLight} />
-              </Pressable>
-              <Pressable
+                <TextPrimary>Bagikan</TextPrimary>
+                <Entypo name="share" size={30} color={TextColorLight} />
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[styles.list, { marginBottom: heightSize("4%") }]}
-                onPress={riviewPlayStore}
+                onPress={playStoreRiview}
               >
                 <TextPrimary>Beri Ulasan</TextPrimary>
                 <AntDesign name="star" size={30} color={TextColorLight} />
-              </Pressable>
+              </TouchableOpacity>
               <ButtonStyle
                 title="Lihat Pembahasan"
                 onPress={() => {
                   onPress();
-                  RewardedAdd();
+                  const random = Math.floor(Math.random() * 3);
+                  if (random === 1) RewardedAdd();
                 }}
               />
             </View>

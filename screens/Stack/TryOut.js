@@ -12,11 +12,6 @@ import CountDown from "react-native-countdown-component";
 import { useNavigation } from "@react-navigation/native";
 import TextParagraph from "../../components/Text/TextParagraph";
 import { millisToMinutesAndSeconds } from "../../helpers/Functions";
-import {
-  colorLight,
-  colorPink,
-  colorSecondary,
-} from "../../assets/Colors/Colors";
 import { widthPercentage, heightPercentage } from "../../Global/Dimensions";
 import { heightSize, widthSize } from "../../helpers/layoutDimension";
 import Layout from "../../Global/Layout";
@@ -35,14 +30,14 @@ const TryOut = ({ route }) => {
   const [quizStart, setQuizStart] = useState(true);
 
   const { data, tryOutInfo } = route.params;
-  const { category, isNewItem, likes, title, usingMath, views } =
-    data[indexDocument].meta;
-  const { answer, correctAnswer, pembahasan, question } =
+  const { title, usingMath } = data[indexDocument].meta;
+  const { answer, corectAnswer, pembahasan, question } =
     data[indexDocument].soal[currentIndex];
   const lenthData = data[indexDocument].soal.length;
   const navigation = useNavigation();
   const [progres, setProgres] = useState(1 / lenthData);
   const [timer, setTimer] = useState(tryOutInfo.jumlahSoal);
+  const [headerVisible, setHeaderVisible] = useState(true);
 
   const next = useCallback(() => {
     if (currentIndex === lenthData - 1) {
@@ -63,34 +58,39 @@ const TryOut = ({ route }) => {
 
   const nextDocument = useCallback(() => {
     if (indexDocument === data.length - 1) {
+      setHeaderVisible(true);
       setIsFinish(true);
       return;
     }
+    setGrade(corection(data[indexDocument].soal, buttonSelect));
     setIndexDocumnet(indexDocument + 1);
     setCurrentIndex(0);
     setProgres(1 / lenthData);
   }, [indexDocument]);
 
   useEffect(() => {
-    // if (isFinish) setGrade(corection(DB, buttonSelect));
     setTimer(tryOutInfo.jumlahSoal);
     navigation.setOptions({
       headerRight: () =>
-        !quizStart && (
+        !headerVisible && (
           <CountDown
             until={60 * timer}
             size={14}
             running={true}
-            onFinish={() => alert("finish")}
+            onFinish={() => {
+              setHeaderVisible(true);
+              setIsFinish(true);
+            }}
             digitStyle={{ backgroundColor: BackGround }}
             digitTxtStyle={{ color: TextColorDark }}
             timeToShow={["H", "M", "S"]}
             timeLabels={{ m: "", s: "" }}
           />
         ),
-      headerLeft: () => !quizStart && <TextPrimary>{title}</TextPrimary>,
+      headerLeft: () => !headerVisible && <TextPrimary>{title}</TextPrimary>,
     });
-  }, [quizStart, indexDocument]);
+  }, [headerVisible, indexDocument]);
+
 
   return quizStart ? (
     <TryoutStart
@@ -98,10 +98,13 @@ const TryOut = ({ route }) => {
       jumlahSoal={tryOutInfo.jumlahSoal}
       timer={timer}
       setTimer={setTimer}
-      onPress={() => setQuizStart(false)}
+      onPress={() => {
+        setQuizStart(false);
+        setHeaderVisible(false);
+      }}
     />
   ) : isFinish ? (
-    <TryOutFinish />
+    <TextParagraph>Finish</TextParagraph>
   ) : (
     <Layout>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>

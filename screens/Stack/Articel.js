@@ -26,14 +26,13 @@ import { db } from "../../helpers/firebase";
 import { ContextApi } from "../../helpers/ContextApi";
 import { MathJaxSvg } from "react-native-mathjax-html-to-svg";
 import onShare from "../../functions/shareFunction";
-
+import BannerAdd from "../../components/Adds/BannerAdd";
 
 const Articel = ({ route }) => {
   const { data, id, colRef } = route.params;
   const [userPressLikeButton, setUserPressLikeButtom] = useState(false);
   const { userData } = useContext(ContextApi);
   const userDocRef = doc(db, "users", userData.userID);
-
 
   const increamentLikes = async () => {
     await updateDoc(doc(db, colRef, id), {
@@ -110,7 +109,8 @@ const Articel = ({ route }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <MathJaxSvg fontSize={15} color={colorDark} fontCache={true}>
+        <BannerAdd size={"banner"} styles={{marginBottom: heightPercentage(3)}}/>
+        <MathJaxSvg fontSize={15} color={colorDark} fontCache={true} style={{marginBottom: heightPercentage(5)}}>
           {`<div style='text-align: justify; line-height: 25'>${data.text}`}
         </MathJaxSvg>
       </ScrollView>

@@ -1,9 +1,10 @@
 import { Share } from "react-native";
+import { packageName } from "../Global/packageName";
 
 const onShare = async () => {
   try {
     const result = await Share.share({
-      message: "https://play.google.com/store/apps/details?id=com.misdar.saintis",
+      message: `https://play.google.com/store/apps/details?id=${packageName}`,
     });
     if (result.action === Share.sharedAction) {
       if (result.activityType) {

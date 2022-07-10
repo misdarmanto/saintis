@@ -61,7 +61,7 @@ export default function TabNavigation() {
       <Tab.Screen
         name="LatihanSoal"
         component={ListQuiz}
-        options={{ title: "latihan soal" }}
+        options={{ title: "latihan Soal" }}
       />
       <Tab.Screen
         name="LisTryOut"

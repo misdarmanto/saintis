@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
-import { TouchableOpacity, StyleSheet, Share, View } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Text} from "react-native";
 import CardList from "../../components/Card/cardList";
 import { heightPercentage, widthPercentage } from "../../Global/Dimensions";
 import { AntDesign } from "@expo/vector-icons";
 import Layout from "../../Global/Layout";
 import { TextColorDark } from "../../Global/Color";
 import { Entypo } from "@expo/vector-icons";
-import * as StoreReview from "expo-store-review";
-import { Linking, Text } from "react-native";
 import TextParagraph from "../../components/Text/TextParagraph";
 import IconCricle from "../../components/IconCricle";
 import {
@@ -23,18 +21,10 @@ import { getAuth, signOut } from "firebase/auth";
 import { ContextApi } from "../../helpers/ContextApi";
 import TextSmall from "../../components/Text/TextSmall";
 import onShare from "../../functions/shareFunction";
+import playStoreRiview from "../../functions/playstoreRiview";
 
 const UserProfileScreen = () => {
   const { userData } = useContext(ContextApi);
-
-  const riviewPlayStore = async () => {
-    if (await StoreReview.hasAction()) {
-      Linking.openURL(
-        `market://details?id=com.misdar.saintis&showAllReviews=true`
-      );
-      StoreReview.requestReview();
-    }
-  };
 
   const logOut = () => {
     const auth = getAuth();
@@ -61,7 +51,7 @@ const UserProfileScreen = () => {
         <Text style={{ fontSize: 18, color: colorLight }}>{userData.name}</Text>
         <TextSmall style={{ color: colorGray }}>{userData.email}</TextSmall>
       </View>
-      <ListButton onPress={riviewPlayStore}>
+      <ListButton onPress={playStoreRiview}>
         <TextParagraph style={{ fontSize: 18 }}>
           Beri Rating Aplikasi ini
         </TextParagraph>

@@ -90,7 +90,10 @@ export default function Quiz({ route }) {
   }, []);
 
   const next = useCallback(() => {
-    if (currentIndex === 10 && isRiview) RewardedAdd();
+    if (currentIndex === 10 && isRiview) {
+      const random = Math.floor(Math.random() * 2);
+      if (random === 1) RewardedAdd();
+    } 
     if (currentIndex === DB.length - 1) {
       if (!isRiview) {
         setModalVisible(true);

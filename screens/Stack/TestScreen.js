@@ -1,5 +1,5 @@
 import React from "react";
-import RenderHtml from "react-native-render-html";
+
 import { useWindowDimensions } from "react-native";
 import Layout from "../../Global/Layout";
 import { widthPercentage } from "../../Global/Dimensions";
@@ -16,11 +16,7 @@ const TestScreen = () => {
     </p>`,
   };
 
-  return (
-    <Layout>
-      <RenderHtml contentWidth={width} source={source} />
-    </Layout>
-  );
+  return <Layout></Layout>;
 };
 
 export default TestScreen;

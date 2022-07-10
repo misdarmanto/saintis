@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { MathJaxSvg } from "react-native-mathjax-html-to-svg";
 import React, { useState, useEffect } from "react";
-import { Button } from "react-native";
+import { Button, TouchableOpacity } from "react-native";
 import TextPrimary from "../../components/Text/TextPrimary";
 import Layout from "../../Global/Layout";
 import { heightPercentage, widthPercentage } from "../../Global/Dimensions";
@@ -22,6 +22,8 @@ import NotFoundAnimation from "../../components/animations/NotFound";
 import List from "../../components/List";
 import { FlatList } from "react-native";
 import LoadingSkeleton from "../../components/LoadingSkeleton";
+import Container from "../../components/Container";
+import { BackGround, Primary } from "../../Global/Color";
 
 const LisTryOutScreen = () => {
   const navigation = useNavigation();
@@ -29,6 +31,7 @@ const LisTryOutScreen = () => {
   const docRef = doc(db, "tryOut", "tryOutHeader");
   const [headerDocument, setHeaderDocument] = useState([]);
   const [isDataAvaliable, setIsDataAvaliable] = useState(false);
+  const [badgedSelect, setBadgedSelect] = useState(1);
 
   const sorting = (id) => {
     const q = query(dbCollections, where("meta.tryOutID", "==", id));
@@ -42,8 +45,10 @@ const LisTryOutScreen = () => {
   };
 
   const getHeaderDocument = async () => {
+    setIsDataAvaliable(false);
     const document = await getDoc(docRef);
-    setHeaderDocument(document.data().headerDocument);
+    setHeaderDocument([]);
+    // setHeaderDocument(document.data().headerDocument);
     setIsDataAvaliable(true);
   };
 
@@ -62,13 +67,59 @@ const LisTryOutScreen = () => {
     );
   };
 
+  const rendarTags = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={{
+          paddingHorizontal: widthPercentage(5),
+          height: heightPercentage(8),
+          justifyContent: "center",
+        }}
+        onPress={() => {
+          getHeaderDocument();
+          setBadgedSelect(item.id);
+        }}
+      >
+        <TextPrimary
+          style={
+            badgedSelect === item.id
+              ? {
+                  fontSize: 20,
+                }
+              : { fontSize: 15 }
+          }
+        >
+          {item.tag}
+        </TextPrimary>
+      </TouchableOpacity>
+    );
+  };
+
+  const TagList = () => {
+    return (
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        data={[
+          { id: 1, tag: "Semua" },
+          { id: 2, tag: "Belum dikerjakan" },
+          { id: 3, tag: "Tidak dikerjakan" },
+        ]}
+        renderItem={rendarTags}
+        keyExtractor={(item) => item.id}
+      />
+    );
+  };
   return (
-    <Layout>
+    <Layout style={{ flex: 1 }}>
       {/* <TextPrimary>hello world</TextPrimary>
       <Button title="get data" onPress={() => navigation.navigate("TestScreen")} /> */}
+      <Container>
+        <TagList />
+      </Container>
       {!isDataAvaliable && <LoadingSkeleton />}
       {isDataAvaliable && headerDocument.length === 0 ? (
-        <NotFoundAnimation />
+        <NotFoundAnimation massage="Opss... Belum ada" />
       ) : (
         <FlatList
           style={{ paddingTop: heightPercentage(2) }}

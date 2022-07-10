@@ -6,6 +6,8 @@ import Layout from "../../Global/Layout";
 import { FlatList } from "react-native";
 import LoadingSkeleton from "../../components/LoadingSkeleton";
 import NotFoundAnimation from "../../components/animations/NotFound";
+import NetInfo from "@react-native-community/netinfo";
+import InternetNotConnect from "../../pages/InternetNotConnect"
 import {
   collection,
   getDocs,
@@ -25,6 +27,7 @@ const ListMateriBelajar = ({ route }) => {
   const navigation = useNavigation();
   const [dataCollections, setDataCollections] = useState([]);
   const [isDataAvaliable, setIsDataAvaliable] = useState(false);
+  const [isOffline, setIsOfflineStatus] = useState(false);
   const dbCollections = collection(db, "materiBelajar");
 
   const extractData = (snapshoot) => {
@@ -58,6 +61,13 @@ const ListMateriBelajar = ({ route }) => {
     navigation.navigate("Artikel", data);
   };
 
+  useEffect(() => {
+    const getNetInfo = NetInfo.addEventListener((state) => {
+      setIsOfflineStatus(!state.isConnected || !state.isInternetReachable);
+    });
+    return () => getNetInfo();
+  }, [isOffline]);
+
   const renderItem = ({ item }) => {
     const { category, title, likes, views, id } = item;
     return (
@@ -74,7 +84,9 @@ const ListMateriBelajar = ({ route }) => {
     );
   };
 
-  return (
+  return isOffline ? (
+    <InternetNotConnect />
+  ) : (
     <Layout>
       {!isDataAvaliable ? (
         <LoadingSkeleton />

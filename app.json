@@ -33,13 +33,13 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode" : 1,
+      "versionCode" : 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1E90FF"
       },
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8095237298596091~3314525522"
+        "googleMobileAdsAppId": "ca-app-pub-8095237298596091~2299635755"
       },
       "package": "com.misdar.saintis"
     },

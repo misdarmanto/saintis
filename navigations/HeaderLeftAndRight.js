@@ -1,4 +1,4 @@
-import { TouchableOpacity, Share } from "react-native";
+import { TouchableOpacity } from "react-native";
 import onShare from "../functions/shareFunction";
 import { Entypo } from "@expo/vector-icons";
 import { colorLight } from "../assets/Colors/Colors"

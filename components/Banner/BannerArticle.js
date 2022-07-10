@@ -26,6 +26,7 @@ import {
   increment,
 } from "firebase/firestore";
 import { db } from "../../helpers/firebase";
+import { MathJaxSvg } from "react-native-mathjax-html-to-svg";
 import TextFormat from "../Text/TextFormat";
 
 const BannerArticel = () => {
@@ -105,11 +106,18 @@ const BannerArticel = () => {
               width: widthPercentage(90),
             }}
           >
-            <Text style={styles.textDescription}>
-              {item.text.length > 200
-                ? item.text.slice(0, 200) + "....."
-                : item.text}
-            </Text>
+            <MathJaxSvg
+              fontSize={13}
+              color={"#d3d3d3"}
+              fontCache={true}
+              style={styles.textDescription}
+            >
+              {`<div style='text-align: justify; line-height: 20'>${
+                item.text.length > 200
+                  ? item.text.slice(0, 200) + "....."
+                  : item.text
+              }`}
+            </MathJaxSvg>
           </View>
         </Container>
       </TouchableOpacity>
